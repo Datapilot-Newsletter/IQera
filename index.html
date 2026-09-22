@@ -37,7 +37,6 @@ a{color:var(--dark)}
 
 /* Hero */
 .hero{background:var(--dark);color:#fff;position:relative;overflow:hidden}
-.hero::after{content:"";position:absolute;right:7%;top:50%;width:300px;height:300px;border-radius:50%;border:34px solid;border-color:var(--gold) var(--teal) transparent var(--gold);transform:translateY(-58%) rotate(-20deg)}
 .hero-in{max-width:1080px;margin:0 auto;padding:64px 24px 56px;position:relative;z-index:1}
 .issue{font:600 15px/1.4 var(--body);color:#BFD6DA;margin:0 0 20px}
 .hero h1{font-family:var(--display);font-weight:800;font-size:clamp(34px,5.4vw,60px);line-height:1.05;letter-spacing:-.02em;margin:0;max-width:15ch}
@@ -140,7 +139,6 @@ dialog figcaption{color:#E4EEF0;font-size:15px;margin-top:8px}
 #view-tdb *{box-sizing:content-box}
 #view-tdb[hidden],#view-newsletter[hidden]{display:none}
 
-@media (max-width:1000px){.hero::after{display:none}}
 @media (max-width:720px){
   body{font-size:17px}
   .bar nav{display:none}
@@ -285,30 +283,19 @@ dialog figcaption{color:#E4EEF0;font-size:15px;margin-top:8px}
     <h2>Les enseignements de la mission</h2>
     <details open><summary>Comprendre le métier avant de toucher aux données</summary><p>Chorus Pro, tranches d'âge, litiges, lettrage : il a fallu apprendre le vocabulaire du recouvrement pour construire les bons indicateurs.</p></details>
     <details><summary>La fiabilité avant tout</summary><p>Un écart de 17 € peut coûter plus cher en confiance qu'un graphique mal présenté.</p></details>
-    <details><summary>Travailler sur place change tout</summary><p>Être chez le client permet de valider les chiffres directement avec les personnes qui les utilisent.</p></details>
   </section>
 
   <section id="suite">
     <h2>La suite</h2>
     <p>La mission continue, et le rapport va encore évoluer dans les prochains mois :</p>
     <ul class="next">
-      <li><span class="when">Prévu pour [date]</span><strong>Des données quotidiennes</strong> pour suivre la facturation au jour le jour, en plus de la vue mensuelle.</li>
-      <li><span class="when">Prévu pour [date]</span><strong>Des pages « Top clients »</strong> pour voir en un coup d'œil nos clients les plus importants.</li>
+      <li><span class="when">Prévu pour le prochain PI Planning</span><strong>Des données quotidiennes</strong> pour suivre la facturation au jour le jour, en plus de la vue mensuelle.</li>
+      <li><span class="when">Prévu pour le prochain PI Planning</span><strong>Des pages « Top clients »</strong> pour voir en un coup d'œil nos clients les plus importants.</li>
     </ul>
-    <div class="cta">
-      <p>Des sujets similaires chez vos clients, ou des idées à partager ? Les échanges sont les bienvenus.</p>
-      <div class="btns">
-        <a class="btn" href="mailto:prenom.nom@datapilot.fr?subject=Newsletter%20iQera%20%3A%20un%20sujet%20%C3%A0%20partager">Écrire à l'équipe</a>
-      </div>
-    </div>
-    <div class="sign">
-      <p>Un grand merci à l'équipe iQera pour son accueil, et à [noms] chez Datapilot pour leur soutien sur cette mission.</p>
-      <p>Bonne lecture,<br>Votre consultant Datapilot en mission chez iQera</p>
-    </div>
   </section>
 </main>
 
-<footer><div><span>Datapilot, newsletter interne, Maurice</span><span>Contact : <a href="mailto:prenom.nom@datapilot.fr" style="color:#fff">[prenom.nom@datapilot.fr]</a></span></div></footer>
+<footer><div><span>Datapilot, newsletter interne</span></div></footer>
 </div>
 
 <div id="view-tdb" hidden></div>
