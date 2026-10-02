@@ -154,9 +154,12 @@ dialog button{position:absolute;top:8px;right:8px;background:var(--gold);border:
 dialog figcaption{color:#E4EEF0;font-size:15px;margin-top:8px}
 
 /* Tableau de bord interactif (vue #tdb) */
-#view-tdb{background:#E9ECEF;padding:24px 0;min-height:100vh;overflow-x:auto;font:16px/normal 'Segoe UI',Calibri,'Helvetica Neue',sans-serif;color:#222}
+/* Tableau de bord intégré dans la page, mis à l'échelle de la largeur disponible */
+.tdb-block{margin-top:40px}
+.tdb-frame{position:relative;width:100%;overflow:hidden;border:1px solid var(--line);border-radius:10px;background:#F4F6F8}
+#view-tdb{position:absolute;top:0;left:0;width:1280px;transform-origin:0 0;font:16px/normal 'Segoe UI',Calibri,'Helvetica Neue',sans-serif;color:#222}
 #view-tdb *{box-sizing:content-box}
-#view-tdb[hidden],#view-newsletter[hidden]{display:none}
+#view-tdb > div{box-shadow:none!important}
 
 @media (max-width:720px){
   body{font-size:17px}
@@ -204,7 +207,6 @@ dialog figcaption{color:#E4EEF0;font-size:15px;margin-top:8px}
 <main>
   <section id="pourquoi">
     <h2>Pourquoi ce projet ?</h2>
-    <p>Bonjour à tous,</p>
     <p>Chaque mois, iQera remet à ses clients un tableau de bord de suivi de leurs factures. Jusqu'à présent, il était préparé à la main sur Excel. Concrètement, ça voulait dire :</p>
     <ul>
       <li>une à deux semaines de travail chaque mois pour produire le rapport ;</li>
@@ -289,9 +291,9 @@ dialog figcaption{color:#E4EEF0;font-size:15px;margin-top:8px}
       <p>Le tableau de bord, lui, s'appuie sur une <strong>photo mensuelle figée au 1er du mois</strong>. Le chiffre de juillet sera toujours 381 224 €, que le rapport soit ouvert le 1er, le 2 ou le 15.</p>
     </article>
 
-    <div class="cta">
-      <p>Le tableau de bord complet compte 6 pages : accueil, suivi des KPI, évolution mensuelle, tranches d'âge, encaissements et litiges.</p>
-      <a class="btn" href="#tdb">Explorer le TDB complet</a>
+    <div class="tdb-block">
+      <p>Le tableau de bord complet compte 6 pages : accueil, suivi des KPI, évolution mensuelle, tranches d'âge, encaissements et litiges. Utilisez les onglets et les filtres pour l'explorer.</p>
+      <div class="tdb-frame" id="tdb-frame"><div id="view-tdb"></div></div>
     </div>
   </section>
 
@@ -324,7 +326,6 @@ dialog figcaption{color:#E4EEF0;font-size:15px;margin-top:8px}
 <footer><div><span>Datapilot, newsletter interne</span></div></footer>
 </div>
 
-<div id="view-tdb" hidden></div>
 
 <dialog id="lb" aria-label="Capture agrandie">
   <figure style="margin:0;position:relative"><img alt=""><figcaption></figcaption><button type="button" id="lbx">Fermer</button></figure>
@@ -436,7 +437,6 @@ dialog figcaption{color:#E4EEF0;font-size:15px;margin-top:8px}
 <template id="tpl-tdb">
 <div style="width: 1280px; margin: 0 auto; box-shadow: 0 1px 6px rgba(0,0,0,0.12); height: 820px; box-sizing: border-box; background: #F4F6F8; display: flex; flex-direction: column; font-family: 'Segoe UI', Calibri, 'Helvetica Neue', sans-serif; color: #222222;">
 <div style="display: flex; align-items: stretch; background: #1B2A3D; color: #FFFFFF; min-height: 44px;">
-<a href="#cas" style="display: flex; align-items: center; padding: 0 16px; color: #C9D6E4; font-size: 12px; text-decoration: none; border-right: 1px solid #33455C;">← Newsletter</a>
 <sc-for list="{{tabs}}" as="t" hint-placeholder-count="6"><button type="button" onClick="{{t.pick}}" style="padding: 0 18px; border: 0; border-bottom: 3px solid {{t.bd}}; background: transparent; color: {{t.fg}}; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;">{{t.n}}</button></sc-for>
 <div style="margin-left: auto; display: flex; align-items: center; padding: 0 16px; font-size: 11px; color: #C9D6E4;">Données fictives</div>
 </div>
@@ -971,20 +971,16 @@ return Component;
 <script>
 mount("tpl-tdb", "view-tdb", TdbComponent);
 (function(){
-  var nl = document.getElementById("view-newsletter"), tdb = document.getElementById("view-tdb"), wasTdb = false;
-  function route(){
-    var onTdb = location.hash === "#tdb";
-    tdb.hidden = !onTdb; nl.hidden = onTdb;
-    if (onTdb) { window.scrollTo(0, 0); }
-    else if (wasTdb) {
-      window.dispatchEvent(new Event("resize"));
-      var target = location.hash && document.querySelector(location.hash);
-      if (target) target.scrollIntoView(); else window.scrollTo(0, 0);
-    }
-    wasTdb = onTdb;
+  var frame = document.getElementById("tdb-frame"), tdb = document.getElementById("view-tdb");
+  var W = 1280, H = 820;
+  function fit(){
+    var k = frame.clientWidth / W;
+    tdb.style.transform = "scale(" + k + ")";
+    frame.style.height = Math.ceil(H * k) + "px";
   }
-  window.addEventListener("hashchange", route);
-  route();
+  fit();
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(frame);
+  window.addEventListener("resize", fit);
 })();
 </script>
 </body>
